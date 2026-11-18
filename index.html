@@ -78,9 +78,9 @@
         <span class="btn-icon">🔒</span>
         <span class="btn-label">Lock</span>
       </button>
-      <button id="musicToggleBtn" class="pill-btn" aria-label="Toggle gentle background chime music" aria-pressed="false" title="Toggle relaxing princess melody">
+      <button id="musicToggleBtn" class="pill-btn music-pill" aria-label="Toggle Kaabil Tareef Tu song" aria-pressed="false" title="Play 'Kaabil Tareef Tu' for Princess Akhsa">
         <span class="btn-icon">🎵</span>
-        <span class="btn-label">Music: Off</span>
+        <span class="btn-label" id="musicNavLabel">Kaabil Tareef Tu</span>
       </button>
       <button id="confettiBtn" class="pill-btn primary-glow" aria-label="Celebrate with royal confetti" title="Blow celebration confetti!">
         <span class="btn-icon">🎉</span>
@@ -409,6 +409,30 @@
 
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- ROYAL FLOATING SONG WIDGET: Kaabil Tareef Tu -->
+  <div class="royal-song-widget" id="royalSongWidget" role="region" aria-label="Princess Song Player">
+    <div class="song-disc" id="songDisc" aria-hidden="true">
+      <span class="disc-icon">👑</span>
+    </div>
+    <div class="song-text-wrap">
+      <span class="song-tag">Princess Anthem ✨</span>
+      <span class="song-title">Kaabil Tareef Tu</span>
+      <span class="song-sub">Dedicated to Princess Akhsa 💕</span>
+    </div>
+    <div class="song-actions">
+      <button id="widgetPlayBtn" class="song-control-btn play-pause-btn" aria-label="Play or pause Kaabil Tareef Tu" title="Play / Pause Kaabil Tareef Tu">
+        <span id="widgetPlayIcon" aria-hidden="true">▶</span>
+      </button>
+      <label for="songFileInput" class="song-upload-btn" title="Have the full MP3? Click to upload and play it!">
+        <span aria-hidden="true">📁</span>
+        <span class="visually-hidden">Upload MP3</span>
+      </label>
+      <input type="file" id="songFileInput" accept="audio/*" class="visually-hidden">
+    </div>
+  </div>
+
+  <audio id="royalAudio" src="kabil_tareef.mp3" preload="auto" loop></audio>
 
   <!-- FOOTER -->
   <footer class="site-footer">
