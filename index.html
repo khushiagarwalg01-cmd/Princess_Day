@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A magical Princess Day celebration website for Princess Akhsa - my soul sister, best friend, and darling little sis.">
+  <title>Happy Princess Day! 👑💕 To My Princess Akhsa</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="lock-active">
+  <!-- PUZZLE GATE OVERLAY (Passcode: Akki) -->
+  <div id="puzzleGate" class="puzzle-gate-overlay" aria-modal="true" role="dialog" aria-labelledby="puzzleTitle">
+    <div class="puzzle-card">
+      <div class="puzzle-badge">👑 Royal Palace Clearance</div>
+      <h2 id="puzzleTitle">Solve the Royal Riddle to Enter 👑</h2>
+      <p class="puzzle-desc">
+        Only my favorite soul sister & forever princess holds the secret key! 
+        Complete the 4-letter riddle below to unlock your Princess Day surprise.
+      </p>
+
+      <div class="riddle-box" id="riddleBox">
+        <div class="riddle-step active" id="riddleStep0">
+          <span class="step-num">1.</span>
+          <p class="riddle-line">✦ <span class="blank-char" id="blankChar0">_</span>lways my favorite princess & partner in crime</p>
+        </div>
+        <div class="riddle-step" id="riddleStep1">
+          <span class="step-num">2.</span>
+          <p class="riddle-line">✦ <span class="blank-char" id="blankChar1">_</span>nowledge keeper of all our royal secrets</p>
+        </div>
+        <div class="riddle-step" id="riddleStep2">
+          <span class="step-num">3.</span>
+          <p class="riddle-line">✦ <span class="blank-char" id="blankChar2">_</span>indest heart who makes me laugh until it hurts</p>
+        </div>
+        <div class="riddle-step" id="riddleStep3">
+          <span class="step-num">4.</span>
+          <p class="riddle-line">✦ <span class="blank-char" id="blankChar3">_</span>rreplaceable little princess who rules my heart</p>
+        </div>
+      </div>
+
+
+      <!-- 4 Letter Passcode Inputs -->
+      <form id="puzzleForm" class="passcode-form">
+        <div class="passcode-boxes" id="passcodeBoxes">
+          <input type="text" maxlength="1" class="pass-char" id="char1" data-index="0" autocomplete="off" autofocus aria-label="First letter">
+          <input type="text" maxlength="1" class="pass-char" id="char2" data-index="1" autocomplete="off" aria-label="Second letter">
+          <input type="text" maxlength="1" class="pass-char" id="char3" data-index="2" autocomplete="off" aria-label="Third letter">
+          <input type="text" maxlength="1" class="pass-char" id="char4" data-index="3" autocomplete="off" aria-label="Fourth letter">
+        </div>
+
+        <div class="puzzle-feedback" id="puzzleFeedback" aria-live="polite"></div>
+
+        <div class="puzzle-actions">
+          <button type="submit" class="btn btn-primary btn-large" id="unlockBtn">
+            <span>👑 Unlock The Royal Vault</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Ambient Floating Background Particles Canvas -->
+  <canvas id="ambientCanvas" class="ambient-canvas"></canvas>
+
+  <!-- Sticky Top Navigation Bar -->
+  <header class="top-nav">
+    <div class="nav-brand">
+      <span class="heart-icon" aria-hidden="true">👑</span>
+      <span class="brand-text">Princess Akhsa • Forever Royalty</span>
+    </div>
+    <div class="nav-actions">
+      <button id="lockVaultBtn" class="pill-btn" aria-label="Lock royal vault with puzzle" title="Re-lock vault with puzzle">
+        <span class="btn-icon">🔒</span>
+        <span class="btn-label">Lock</span>
+      </button>
+      <button id="musicToggleBtn" class="pill-btn" aria-label="Toggle gentle background chime music" aria-pressed="false" title="Toggle relaxing princess melody">
+        <span class="btn-icon">🎵</span>
+        <span class="btn-label">Music: Off</span>
+      </button>
+      <button id="confettiBtn" class="pill-btn primary-glow" aria-label="Celebrate with royal confetti" title="Blow celebration confetti!">
+        <span class="btn-icon">🎉</span>
+        <span class="btn-label">Celebrate!</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="hero-content">
+        <div class="hero-avatar-wrap">
+          <div class="avatar-crown-badge">👑 Her Royal Highness</div>
+          <div class="avatar-ring">
+            <img src="princess_avatar.jpg" alt="Princess Akhsa Cartoon Avatar with Golden Crown" class="hero-avatar-img">
+          </div>
+        </div>
+
+        <div class="badge-wrapper">
+          <span class="hero-badge">👑 Happy Princess Day • November 18 ✨</span>
+        </div>
+        <h1 class="hero-title">
+          Happy Princess Day, <br>
+          <span class="sister-name-highlight" id="heroSisterName">Princess Akhsa</span>
+        </h1>
+        <p class="hero-subtitle">
+          "Once I thought about a little sis, but He gave me a sis as you. To the sweetest princess who wears her invisible crown with endless kindness, laughter, and grace—you are royalty in my life every single day."
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#letter-section" class="btn btn-primary" id="openLetterCta">
+            <span>💌 Read Royal Letter</span>
+          </a>
+          <button id="hugCounterBtn" class="btn btn-secondary" title="Click to send royal hugs">
+            <span>👑 Send Royal Hugs (<span id="hugCount">142</span>)</span>
+          </button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-pill">
+            <span class="stat-icon" aria-hidden="true">👑</span>
+            <div>
+              <strong>Royalty Status</strong>
+              <small>Crowned Queen of My Heart</small>
+            </div>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon" aria-hidden="true">💖</span>
+            <div>
+              <strong>Pure Grace</strong>
+              <small>Princess with the Kindest Soul</small>
+            </div>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon" aria-hidden="true">📱</span>
+            <div>
+              <strong>Royal Hotline</strong>
+              <small>Infinite Laughs & Tea Spilled</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE ENVELOPE & LETTER SECTION -->
+    <section class="letter-section" id="letter-section">
+      <div class="section-header">
+        <span class="section-tag">A Royal Decree From The Heart</span>
+        <h2 class="section-title">A Special Letter For My Princess</h2>
+        <p class="section-desc">Tap the royal envelope to break the seal and unfold your Princess Day letter.</p>
+      </div>
+
+      <div class="envelope-container" id="envelopeWrapper">
+        <div class="envelope" id="envelopeCard" role="button" tabindex="0" aria-label="Open heartfelt royal letter envelope">
+          <div class="envelope-back"></div>
+          <div class="letter-preview" id="letterPreview">
+            <div class="letter-stamp" aria-hidden="true">👑</div>
+            <p class="to-text">To: <span class="letter-recipient-name">Princess Akhsa</span></p>
+            <p class="from-text">From: <span id="senderNameDisplay">Your Big Sister Always</span></p>
+            <span class="seal-tap-prompt" id="envelopePrompt">💌 Tap Envelope to Open</span>
+          </div>
+          <div class="envelope-flap-top" id="envelopeFlap"></div>
+          <div class="envelope-pocket"></div>
+          <div class="wax-seal" id="waxSeal" aria-hidden="true">
+            <span class="wax-heart">👑</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unfolded Letter Parchment Display -->
+      <article class="letter-parchment" id="letterParchment" aria-live="polite">
+        <div class="parchment-border">
+          <div class="parchment-header">
+            <div class="parchment-seal-decor" aria-hidden="true">👑 ✦ 🌸 ✦ 👑</div>
+            <time datetime="2026-11-18" class="letter-date">November 18 • Princess Day</time>
+          </div>
+          
+          <h3 class="letter-greeting">Dearest Princess <span class="recipient-inline-name">Akhsa</span>,</h3>
+          
+          <div class="letter-body" id="editableLetterContent">
+            <blockquote class="letter-quote-highlight">
+              "Once I thought about a little sis, but He gave me a sis as you." 👑💖
+            </blockquote>
+            <p>
+              Today is <strong>Princess Day</strong>, and there is honestly no one in the world more deserving of being celebrated than you! 
+              Having you in my life as my cherished soul sister and darling little sis is one of the greatest blessings I could ever ask for.
+            </p>
+            <p>
+              You don’t need glass slippers or a castle on a hill to be true royalty. The royal crown you wear every single day is woven from your endless kindness, 
+              your gentle heart, your radiant smile, and that sparkling laughter that brightens even the cloudiest days.
+            </p>
+            <p>
+              We may live in different houses, but you hold a permanent throne in my heart. Watching you grow, cheering for your dreams, protecting your peace, 
+              listening to your late-night rants, and sharing our crazy inside jokes are some of my favorite joys in life.
+            </p>
+            <p>
+              Never let anyone dull your sparkle or make you doubt your magic. Always remember who you are: a girl with a heart of gold, a spirit full of fire, 
+              and a big sister who will always be standing right beside you to protect your crown.
+            </p>
+            <p>
+              On this special Princess Day, I want to promise you that no matter how busy life gets, you will always have my unconditional love, 
+              my guidance, and your biggest cheerleader in me.
+            </p>
+            <p class="letter-punchline" id="letterPunchline">
+              Happy Princess Day to my favorite soul sister and forever princess! Keep shining, keep ruling, and keep wearing your crown proudly. 👑✨
+            </p>
+          </div>
+
+          <div class="letter-closing">
+            <p>With all my royal love & endless hugs,</p>
+            <div class="signature" id="signatureDisplay">Your Big Sister & Royal Protector Always 👑💕</div>
+          </div>
+
+          <div class="letter-actions">
+            <button id="customizeLetterBtn" class="btn-text">
+              <span>✏️ Personalize Letter</span>
+            </button>
+            <button id="printLetterBtn" class="btn-text">
+              <span>🖨️ Print / Save Keepsake</span>
+            </button>
+            <button id="foldLetterBtn" class="btn-text">
+              <span>📩 Fold Envelope Back</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- REASONS WHY YOU ARE OUR PRINCESS (ROYAL QUALITIES) -->
+    <section class="reasons-section" id="reasons">
+      <div class="section-header">
+        <span class="section-tag">Royal Superpowers</span>
+        <h2 class="section-title">6 Reasons You’re Our Forever Princess</h2>
+        <p class="section-desc">Tap each card to reveal what makes your royal spirit so special.</p>
+      </div>
+
+      <div class="reasons-grid">
+        <!-- Card 1 -->
+        <div class="reason-card" tabindex="0" role="button" aria-label="The Crown of Kindness card. Tap to flip.">
+          <div class="card-inner">
+            <div class="card-front">
+              <span class="card-emoji" aria-hidden="true">👑</span>
+              <h3>The Crown of Kindness</h3>
+              <p class="flip-hint">Tap to flip ✦</p>
+            </div>
+            <div class="card-back">
+              <h4>Golden Heart Royalty</h4>
+              <p>Your true royalty isn't jewels or tiaras—it's how gently, warmly, and generously you treat everyone around you. That's real princess power.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="reason-card" tabindex="0" role="button" aria-label="Queen of Laughter card. Tap to flip.">
+          <div class="card-inner">
+            <div class="card-front">
+              <span class="card-emoji" aria-hidden="true">😂</span>
+              <h3>Queen of Laughter</h3>
+              <p class="flip-hint">Tap to flip ✦</p>
+            </div>
+            <div class="card-back">
+              <h4>Pure Sunshine & Joy</h4>
+              <p>One voice note, funny meme, or random inside joke from you, and I’m laughing until my stomach hurts. You light up every room you enter.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="reason-card" tabindex="0" role="button" aria-label="Castle of Secrets card. Tap to flip.">
+          <div class="card-inner">
+            <div class="card-front">
+              <span class="card-emoji" aria-hidden="true">🏰</span>
+              <h3>Castle of Secrets</h3>
+              <p class="flip-hint">Tap to flip ✦</p>
+            </div>
+            <div class="card-back">
+              <h4>Safe Royal Sanctuary</h4>
+              <p>We may live in different houses, but our bond is a sanctuary. Every secret, dream, and midnight thought is guarded safely with each other.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="reason-card" tabindex="0" role="button" aria-label="Big Sis Royal Guard card. Tap to flip.">
+          <div class="card-inner">
+            <div class="card-front">
+              <span class="card-emoji" aria-hidden="true">🛡️</span>
+              <h3>Big Sis Royal Guard</h3>
+              <p class="flip-hint">Tap to flip ✦</p>
+            </div>
+            <div class="card-back">
+              <h4>Always In Your Corner</h4>
+              <p>As your big sister, nobody messes with you on my watch! I will always shield your peace, cheer your victories, and guard your throne.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="reason-card" tabindex="0" role="button" aria-label="True Fairytale Bond card. Tap to flip.">
+          <div class="card-inner">
+            <div class="card-front">
+              <span class="card-emoji" aria-hidden="true">✨</span>
+              <h3>True Fairytale Bond</h3>
+              <p class="flip-hint">Tap to flip ✦</p>
+            </div>
+            <div class="card-back">
+              <h4>Better Than Any Storybook</h4>
+              <p>Once I thought about a little sis, but He gave me a sis as you. Life brought us together as friends, and our hearts made us soul sisters forever.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="reason-card" tabindex="0" role="button" aria-label="Forever My Little Princess card. Tap to flip.">
+          <div class="card-inner">
+            <div class="card-front">
+              <span class="card-emoji" aria-hidden="true">💖</span>
+              <h3>Forever My Little Princess</h3>
+              <p class="flip-hint">Tap to flip ✦</p>
+            </div>
+            <div class="card-back">
+              <h4>Crowned in My Heart</h4>
+              <p>No matter how old we get or where life takes us, you will always be my precious little princess who rules a special place in my life.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SISTER BUCKET LIST INTERACTION -->
+    <section class="interactive-section" id="bucket-list-section">
+      <div class="section-header">
+        <span class="section-tag">Princess Adventures Ahead</span>
+        <h2 class="section-title">The Royal Princess Bucket List</h2>
+        <p class="section-desc">Magical bucket list adventures we've completed and grand dreams we still need to conquer together!</p>
+      </div>
+
+      <div class="bucket-list-card">
+        <div class="bucket-progress-header">
+          <div>
+            <h3>Our Royal Progress</h3>
+            <span id="bucketProgressText">3 of 6 Completed</span>
+          </div>
+          <div class="progress-bar-track" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar-fill" id="bucketProgressBar" style="width: 50%;"></div>
+          </div>
+        </div>
+
+        <ul class="bucket-checklist" id="bucketListItems">
+          <!-- Populated and syncable via script.js -->
+        </ul>
+
+        <form id="addBucketItemForm" class="add-bucket-form">
+          <input type="text" id="newBucketInput" placeholder="Add a new royal adventure or princess dream..." required maxlength="80">
+          <button type="submit" class="btn btn-primary btn-sm">Add Adventure</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- FINAL WISHING BANNER -->
+    <section class="wishing-banner">
+      <div class="banner-inner">
+        <span class="banner-emoji" aria-hidden="true">✨👑🌸👭🌸👑✨</span>
+        <h2>Happy Princess Day, Princess Akhsa!</h2>
+        <p>May your crown never tilt, your laughter never fade, and your heart always be filled with royal magic and love.</p>
+        <div class="banner-actions">
+          <button id="hugeConfettiBtn" class="btn btn-primary btn-large">
+            👑 Shower Princess With Love & Royal Confetti!
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL FOR CUSTOMIZING NAMES & MESSAGE -->
+  <dialog id="customizeModal" class="custom-edit-modal" aria-modal="true" aria-labelledby="customTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="customTitle">Personalize Your Princess Day Site 👑💕</h3>
+        <button id="closeCustomizeBtn" class="close-btn" aria-label="Close personalize dialog">✕</button>
+      </div>
+      <form id="customizeForm" class="modal-body">
+        <label for="inputSisterName">
+          Princess's Name or Royal Title:
+          <input type="text" id="inputSisterName" placeholder="e.g. Princess Akhsa, Akki, Queen Bee" required maxlength="40">
+        </label>
+        
+        <label for="inputSenderName">
+          Your Royal Name / Big Sis:
+          <input type="text" id="inputSenderName" placeholder="e.g. Khushi, Big Sis, Royal Guard" required maxlength="40">
+        </label>
+
+        <label for="inputCustomNote">
+          Special Royal Note or Inside Joke for the Letter:
+          <textarea id="inputCustomNote" rows="4" placeholder="Add an inside joke, a special memory, or a heartfelt princess blessing..."></textarea>
+        </label>
+
+        <div class="modal-footer">
+          <button type="button" id="resetDefaultsBtn" class="btn btn-text">Reset Default</button>
+          <button type="submit" class="btn btn-primary">Save Changes ✨</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>Crafted with endless love & sparkles for <strong>Princess Day</strong> 👑</p>
+    <p class="footer-sub">Dedicated to Princess Akhsa — forever royalty in our hearts.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
