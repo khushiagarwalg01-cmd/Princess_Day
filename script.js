@@ -370,7 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const royalSongWidget = document.getElementById('royalSongWidget');
   const widgetPlayBtn = document.getElementById('widgetPlayBtn');
   const widgetPlayIcon = document.getElementById('widgetPlayIcon');
-  const songFileInput = document.getElementById('songFileInput');
   const musicNavLabel = document.getElementById('musicNavLabel');
 
   let isSongPlaying = false;
@@ -423,23 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (musicToggleBtn) musicToggleBtn.addEventListener('click', toggleSong);
   if (widgetPlayBtn) widgetPlayBtn.addEventListener('click', toggleSong);
-
-  // File upload for custom audio file if desired
-  if (songFileInput) {
-    songFileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const objectUrl = URL.createObjectURL(file);
-        royalAudio.src = objectUrl;
-        royalAudio.play().then(() => {
-          updateMusicUI(true);
-          showToast(`🎵 Loaded & playing "${file.name}"! 👑✨`);
-        }).catch(err => {
-          console.warn("Audio play error:", err);
-        });
-      }
-    });
-  }
 
   if (royalAudio) {
     royalAudio.addEventListener('ended', () => {

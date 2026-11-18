@@ -1602,26 +1602,6 @@ body.lock-active {
   box-shadow: 0 6px 16px rgba(224, 72, 117, 0.45);
 }
 
-.song-upload-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid var(--border-light);
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  display: grid;
-  place-content: center;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.song-upload-btn:hover {
-  background: var(--primary-light);
-  color: var(--primary);
-  border-color: var(--primary);
-}
-
 @media (max-width: 600px) {
   .royal-song-widget {
     bottom: 1rem;
