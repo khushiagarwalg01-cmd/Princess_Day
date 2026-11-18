@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => playTone(783.99, 0.55, 0.09), 240);
   }
 
-  // --- Song & Sound Architecture: "Kaabil Tareef Tu" ---
+  // --- Song Player: "Kaabil Tareef Tu" (Studio Audio Track) ---
   const royalAudio = document.getElementById('royalAudio');
   const royalSongWidget = document.getElementById('royalSongWidget');
   const widgetPlayBtn = document.getElementById('widgetPlayBtn');
@@ -374,35 +374,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const musicNavLabel = document.getElementById('musicNavLabel');
 
   let isSongPlaying = false;
-  let melodyTimeout = null;
-  let isUsingAudioElement = false;
-
-  // "Kaabil-e-Tareef Tu" Melodic Notes (F#4, A4, B4, C#5, B4, A4, F#4...)
-  const KAABIL_TAREEF_MELODY = [
-    { freq: 369.99, bass: 146.83, dur: 0.65 }, // Kaa-
-    { freq: 440.00, bass: 146.83, dur: 0.50 }, // bil-
-    { freq: 493.88, bass: 146.83, dur: 0.50 }, // e-
-    { freq: 554.37, bass: 220.00, dur: 0.70 }, // taa-
-    { freq: 493.88, bass: 220.00, dur: 0.50 }, // reef
-    { freq: 440.00, bass: 220.00, dur: 0.85 }, // tu
-    { freq: 369.99, bass: 196.00, dur: 0.50 }, // ap-
-    { freq: 392.00, bass: 196.00, dur: 0.50 }, // sa-
-    { freq: 440.00, bass: 196.00, dur: 0.65 }, // raon
-    { freq: 369.99, bass: 146.83, dur: 0.50 }, // jai-
-    { freq: 329.63, bass: 146.83, dur: 0.50 }, // se
-    { freq: 293.66, bass: 146.83, dur: 0.95 }, // hu-ba-hu
-    { freq: 369.99, bass: 123.47, dur: 0.65 }, // Kaa-
-    { freq: 440.00, bass: 123.47, dur: 0.50 }, // bil-
-    { freq: 493.88, bass: 123.47, dur: 0.50 }, // e-
-    { freq: 587.33, bass: 220.00, dur: 0.70 }, // taa-
-    { freq: 554.37, bass: 220.00, dur: 0.50 }, // reef
-    { freq: 493.88, bass: 220.00, dur: 0.85 }, // tu
-    { freq: 440.00, bass: 196.00, dur: 0.50 }, 
-    { freq: 392.00, bass: 196.00, dur: 0.50 },
-    { freq: 369.99, bass: 146.83, dur: 0.65 },
-    { freq: 329.63, bass: 146.83, dur: 0.50 },
-    { freq: 293.66, bass: 146.83, dur: 1.15 }
-  ];
 
   function updateMusicUI(playing) {
     isSongPlaying = playing;
@@ -422,62 +393,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function startSynthMelody() {
-    stopSynthMelody();
-    let step = 0;
-    const playNextNote = () => {
-      if (!isSongPlaying || isUsingAudioElement) return;
-      const item = KAABIL_TAREEF_MELODY[step % KAABIL_TAREEF_MELODY.length];
-      playTone(item.freq, item.dur, 0.04);
-      if (item.bass) {
-        playTone(item.bass, item.dur * 1.25, 0.025);
-      }
-      step++;
-      const nextDelay = (item.dur * 1000) * 0.95;
-      melodyTimeout = setTimeout(playNextNote, nextDelay);
-    };
-    playNextNote();
-  }
-
-  function stopSynthMelody() {
-    if (melodyTimeout) {
-      clearTimeout(melodyTimeout);
-      melodyTimeout = null;
-    }
-  }
-
   function playSong() {
+    if (!royalAudio) return;
     initAudio();
-    updateMusicUI(true);
-
-    if (royalAudio && royalAudio.src) {
-      const playPromise = royalAudio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          isUsingAudioElement = true;
-          stopSynthMelody();
-          showToast("🎵 Playing: Kaabil Tareef Tu for Princess Akhsa! ✨");
-        }).catch(() => {
-          // If mp3 file not present locally yet, seamlessly fallback to acoustic synth melody
-          isUsingAudioElement = false;
-          startSynthMelody();
-          showToast("🎶 Playing: Kaabil Tareef Tu (Princess Melody) ✨");
-        });
-        return;
-      }
-    }
-
-    isUsingAudioElement = false;
-    startSynthMelody();
-    showToast("🎶 Playing: Kaabil Tareef Tu ✨");
+    royalAudio.play().then(() => {
+      updateMusicUI(true);
+      showToast("🎵 Playing: Kaabil Tareef Tu for Princess Akhsa! ✨");
+    }).catch(err => {
+      console.warn("Audio play prevented:", err);
+      showToast("Tap again to play Kaabil Tareef Tu 🎵");
+    });
   }
 
   function pauseSong() {
-    updateMusicUI(false);
     if (royalAudio) {
       royalAudio.pause();
     }
-    stopSynthMelody();
+    updateMusicUI(false);
     showToast("⏸️ Song paused");
   }
 
@@ -492,15 +424,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (musicToggleBtn) musicToggleBtn.addEventListener('click', toggleSong);
   if (widgetPlayBtn) widgetPlayBtn.addEventListener('click', toggleSong);
 
-  // File upload for user's own MP3 file
+  // File upload for custom audio file if desired
   if (songFileInput) {
     songFileInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
         const objectUrl = URL.createObjectURL(file);
         royalAudio.src = objectUrl;
-        isUsingAudioElement = true;
-        stopSynthMelody();
         royalAudio.play().then(() => {
           updateMusicUI(true);
           showToast(`🎵 Loaded & playing "${file.name}"! 👑✨`);
@@ -517,6 +447,12 @@ document.addEventListener('DOMContentLoaded', () => {
         royalAudio.currentTime = 0;
         royalAudio.play();
       }
+    });
+    royalAudio.addEventListener('pause', () => {
+      if (!royalAudio.seeking) updateMusicUI(false);
+    });
+    royalAudio.addEventListener('play', () => {
+      updateMusicUI(true);
     });
   }
 
